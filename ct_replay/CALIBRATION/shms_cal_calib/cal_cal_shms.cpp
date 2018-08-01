@@ -17,9 +17,17 @@
 #include <iomanip>
 #include <time.h>
 
-// A Root script for the SHMS calorimeter quality plots
+//
+// A steering Root script for the SHMS calorimeter calibration.
+//
 
-  void cal_cal_shms(int numruns=1, int RunNumber=1791, int nstop=9999999) {
+
+ //void dc_cal_hms(Int_t runNo, Int_t eventNo) {
+ // TFile *f =  new TFile(Form("../../ROOTfiles/hms_coin_replay_production_%d_%d.root", runNo,eventNo));
+
+  //TTree *t = (TTree*)f->Get("T");
+  
+ void cal_cal_shms(int numruns=1, int RunNumber=1791, int nstop=50000) {
 
   Double_t D_CALO_FP= 275. ;
   Double_t XMIN= -60.;
@@ -27,28 +35,34 @@
   Double_t YMIN= -58.;
   Double_t YMAX=  58.;
 
-  Double_t DELTA_MIN= -25;   //SHMS nominal acceptance
-  Double_t DELTA_MAX=  40;
+  Double_t DELTA_MIN= -10;   //SHMS nominal acceptance
+  Double_t DELTA_MAX=  22;
 
   Double_t BETA_MIN= 0.5;
   Double_t BETA_MAX= 1.5;
 
   Double_t HGCER_NPE_MIN= 3;
-  Double_t NGCER_NPE_MIN= 1.; 
+  Double_t NGCER_NPE_MIN= 1.;   //
 
+
+
+  //  TTree* fTree;
   UInt_t fNentries;
   UInt_t fNstart;
   UInt_t fNstop;
  
   fNstart = 0;
   fNstop = nstop;
+  // Declaration of leaves types
 
   // Track parameters.
+
 
   Double_t        P_tr_x;   //X FP
   Double_t        P_tr_xp;
   Double_t        P_tr_y;   //Y FP
   Double_t        P_tr_yp;
+
 
   Double_t        P_hgcer_npe;
   Double_t        P_ngcer_npe;
@@ -60,6 +74,7 @@
   Double_t        pcalepr;
   Double_t        pcaletrack;
 
+
   TH1F* hEcal;
   TH1F* hEpr;
   TH2F* hDPvsEcal;
@@ -70,20 +85,23 @@
  
   cout << "Plot run " << RunNumber << endl;
 
+//Whole calorimeter fid. limits
+
+
+
   //Reset ROOT and connect tree file.
 
   gROOT->Reset();
 
-   TChain *fTree = new TChain("T");
-   for (int i=0;i<numruns;i++){
-   TString fname = "ROOTfiles/detector_calibration/shms_replay_";
+  TChain *fTree = new TChain("T");
+  for (int i=0;i<numruns;i++){
+   TString fname = "ROOTfiles/shms_coin_replay_production_";
    fname += RunNumber;
    fname +="_";
    fname +=nstop;
    fname +=".root";
    fTree->Add(fname);
-   RunNumber++;
-   cout << "Root file name = " << fname << endl;
+   cout << "THcPShowerCalib::Init: Root file name = " << fname << endl;
   }
 
   fNentries = fTree->GetEntries();
@@ -104,7 +122,11 @@
   fTree->SetBranchAddress("P.cal.eprtrack", &pcalepr); 
   fTree->SetBranchAddress("P.cal.etot", &pcaletrack);    
      
-  // Histogram declarations
+ 
+ TCut pid_cut;
+      pid_cut = "P.gtr.beta>=0.8&&P.gtr.beta<=1.3&&P.hgcer.npeSum<=0.&&P.gtr.dp>=-15&&P.gtr.dp<=15&&P.cal.etottracknorm>=0.";
+
+  // Histogram declarations.
   gStyle->SetOptFit(2);
 
     Int_t cnt=0;
@@ -123,9 +145,11 @@
 
      if (ientry%100000 == 0) cout << "   ReadTree: " << ientry << endl;
 
-  // Request single electron track in calorimeter's fid. volume
+  // Request single electron track in calorimeter's fid. volume.
+  //
 
-   bool good_trk =  pdelta > DELTA_MIN &&
+
+   bool good_trk =   pdelta > DELTA_MIN &&
 		    pdelta < DELTA_MAX &&
 		    P_tr_x + P_tr_xp*D_CALO_FP > XMIN &&
 		    P_tr_x + P_tr_xp*D_CALO_FP < XMAX &&
@@ -152,31 +176,38 @@
 
 
   // Plot histograms
-
-  TCanvas* Canvas = new TCanvas("Canvas", "SHMS Shower Counter performance", 1000, 667);
+   
+  TCanvas* Canvas =
+    new TCanvas("Canvas", "SHMS Shower Counter performance", 1000, 667);
   Canvas->Divide(2,2);
 
-  //Esh (=E_total - Epr) vs Epsh
+
   Canvas->cd(1);
   hESHvsEPR->Draw("colz");
- 
- // Normalized energy deposition after calibration.
+  // Normalized energy deposition after calibration.
+
   gStyle->SetOptStat(1);
   gStyle->SetOptFit(2);
   Canvas->cd(2);
+
   hEcal->Fit("gaus","","",0.9,1.1);
   hEcal->GetFunction("gaus")->SetLineColor(2);
   hEcal->GetFunction("gaus")->SetLineWidth(1);
   hEcal->GetFunction("gaus")->SetLineStyle(1);
 
   // SHMS delta(P) versus the calibrated energy deposition.
+
   Canvas->cd(3);
   hDPvsEcal->Draw("colz");
 
-  // Save canvas in a pdf format
+  //  Canvas->cd(4);
+  //hEpr->Draw();
+
+  // Save canvas in a pdf format.
   Canvas->Print(Form("%d_%d.pdf",RunNumber,nstop));
 
   // Calculate the analysis rate
   t = clock() - t;
-  printf ("The analysis took %.1f seconds \n", ((float) t) / CLOCKS_PER_SEC);
+  printf ("The analysis took %.1f seconds", ((float) t) / CLOCKS_PER_SEC);
 }
+
