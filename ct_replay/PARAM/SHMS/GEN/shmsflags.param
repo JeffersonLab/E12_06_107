@@ -13,7 +13,7 @@
 
 pdelta_offset = 0.0
 ptheta_offset = 0.0
-pphi_offset = -0.0008681269905
+pphi_offset = -8.681269905E-4
 
 ; The following offsets are applied to the central kinematic variables
 ; These might be modified by an experiment
@@ -22,5 +22,3 @@ pphi_offset = -0.0008681269905
 pthetacentral_offset = 0.0
 p_oopcentral_offset = 0.0
 ppcentral_offset = 0.0
-
-

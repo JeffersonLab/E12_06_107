@@ -1,0 +1,7 @@
+; set hdumptof =1 to write out the calibration file
+hdumptof=1
+hdumptof_filename="CALIBRATION/hodo_calib/hfort.37"
+hTOFCalib_shtrk_lo=.8
+hTOFCalib_shtrk_hi=1.5
+hTOFCalib_cer_lo=8.
+hNumPlanesBetaCalc=4
