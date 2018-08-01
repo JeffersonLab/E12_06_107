@@ -1,0 +1,7 @@
+; set pdumptof =1 to write out the calibration file
+pdumptof = 1
+pdumptof_filename = "CALIBRATION/hodo_calib/pfort.37"
+pTOFCalib_shtrk_lo=.8
+pTOFCalib_shtrk_hi=1.5
+pTOFCalib_cer_lo=8.
+pNumPlanesBetaCalc=4

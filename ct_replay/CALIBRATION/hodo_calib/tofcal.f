@@ -5,19 +5,19 @@
 ! April 10, 2005 P. Bosted
 ! Input file: tofcal.inp should contain name of data file to be fit
 !             First xter of file name should be "h" for HMS data
-!             and "s" for SOS. 
+!             and "s" for SOS.
 ! To generate an input file, set xdumptof = 1 in xdebug.param in
 ! the PARAM directory, where x=h for HMS, x=s for SOS
 ! The HMS output will be in fort.37, and the SOS in fort.38
 ! The output parameters will be in tofcal.param. Insert these
-! into the xhodo.param file that you are using. Make sure to 
+! into the xhodo.param file that you are using. Make sure to
 ! erase the old values of sigma, or put the new ones after the
 ! old ones, so that they get used properly
 ! Normal values of invadc_offset are between -50 and 50,
 ! normal values of invadc_velocity are between 12 and 17 (50 is
 ! default if not enough data for the fit), and normal values of
 ! shodo_pos_invadc_adc are 20 to 50. Normal values of the sigmas
-! are 0.3 to 0.8 nsec. 
+! are 0.3 to 0.8 nsec.
 
       implicit none
       integer i,j,k,n,nparam,ipn,ipl,idt,idet(1000),nhit(200)
@@ -61,13 +61,13 @@ c      write(14,'(1x,'' xv'',50f5.1)') (-5.0+0.2*(j-0.5),j=1,50)
           read(string,'(1x,i1)') k
           if(k.eq.0) goto 9
           n=n+1
-          read(string,'(1x,i1,2i3,5f10.3)') ipn,ipl,idt, 
+          read(string,'(1x,i1,2i3,5f10.3)') ipn,ipl,idt,
      >      tr(n),p(n),zc(n),tc1(n),adc(n)
           k = min(18, max(1, int((adc(n)/20.)+1)))
           idet(n) = 100*(ipn-1) + 20*(ipl-1) + idt
-          adchist(idet(n), k) = adchist(idet(n), k) + 1 
+          adchist(idet(n), k) = adchist(idet(n), k) + 1
           k = min(50, max(1, int((adc(n)/20.)+1)))
-          adchistf(idet(n), k) = adchistf(idet(n), k) + 1 
+          adchistf(idet(n), k) = adchistf(idet(n), k) + 1
           nhit0(idet(n)) = nhit0(idet(n)) + 1.
         enddo
  9      continue
@@ -90,7 +90,7 @@ c for test
 c         do n=1,max(1,k)
 c           if(adchist(i,n).lt.hival/20.) adcmin(i)=20.*(n-0.5)
 c         enddo
-c         write(13,'(1x,''adcmin='',f6.1)') adcmin(i) 
+c         write(13,'(1x,''adcmin='',f6.1)') adcmin(i)
         endif
       enddo
       close(unit=9)
@@ -126,7 +126,7 @@ c         write(13,'(1x,''adcmin='',f6.1)') adcmin(i)
           read(string,'(1x,i1)') k
           if(k.eq.0) goto 11
           n=n+1
-          read(string,'(1x,i1,2i3,5f10.3)') ipn,ipl,idt, 
+          read(string,'(1x,i1,2i3,5f10.3)') ipn,ipl,idt,
      >      tr(n),p(n),zc(n),tc1(n),adc(n)
 ! linearize the detector numbers
           idet(n) = 100*(ipn-1) + 20*(ipl-1) + idt
@@ -141,7 +141,7 @@ c         write(13,'(1x,''adcmin='',f6.1)') adcmin(i)
 c          adc(n) = min(500, max(0., adc(n)))
           p2(n) = 1./sqrt(max(20., adc(n)))
           k = min(18, max(1, int(p(n)/7.)+1))
-          phist(idet(n), k) = phist(idet(n), k) + 1 
+          phist(idet(n), k) = phist(idet(n), k) + 1
 ! ignore hits from paddles that are rarely hit
           if(nhit0(idet(n)).lt.100) n=n-1
         enddo
@@ -167,7 +167,7 @@ c          adc(n) = min(500, max(0., adc(n)))
                 iptyp(nparam)=1
               endif
 
-! linear term in path 
+! linear term in path
               nparam=nparam+1
               ip2(idet(j))=nparam
               ipdet(nparam)=idet(j)
@@ -239,10 +239,10 @@ c              write(8,'(1x,i3,4i5)') k,nhit(k),ip1(k),ip2(k),ip3(k)
                 ax(k2,k4) = ax(k2,k4) + p(k)
                 ax(k2,k5) = ax(k2,k5) - p2(j)
                 ax(k2,k6) = ax(k2,k6) + p2(k)
-                ax(k3,k2) = ax(k3,k2) - p(j)    
-                ax(k4,k2) = ax(k4,k2) + p(k)    
-                ax(k5,k2) = ax(k5,k2) - p2(j)    
-                ax(k6,k2) = ax(k6,k2) + p2(k)    
+                ax(k3,k2) = ax(k3,k2) - p(j)
+                ax(k4,k2) = ax(k4,k2) + p(k)
+                ax(k5,k2) = ax(k5,k2) - p2(j)
+                ax(k6,k2) = ax(k6,k2) + p2(k)
                endif
                bx(k3) = bx(k3) - (tr(j)-tr(k)) * p(j)
                bx(k4) = bx(k4) + (tr(j)-tr(k)) * p(k)
@@ -268,7 +268,7 @@ c              write(8,'(1x,i3,4i5)') k,nhit(k),ip1(k),ip2(k),ip3(k)
             enddo
           enddo
         endif ! if n>1
-      enddo ! loop over reading in data 
+      enddo ! loop over reading in data
  12   close(unit=9)
 
 ! Histograms
@@ -315,46 +315,46 @@ c      write(8,'(1x,''ifail='',i10)') ifail
       write(10 + iloop,'(/''; use '',a,
      >  ''tofusinginvadc=1 if want invadc_offset''/
      >  '';  invadc_linear, and invadc_adc to be used''/
-     >            a,''tofusinginvadc=1'')') 
+     >            a,''tofusinginvadc=1'')')
      >  filename(1:1),filename(1:1)
       write(10+iloop,'(/a,''hodo_pos_invadc_offset ='',3(f8.2,'',''),
      >  f8.2)') filename(1:1),(-1.0*toff(i),i=1,80,20)
-      do j=2,16
+      do j=2,20
        write(10+iloop,'(1x,''                        '',3(f8.2,'',''),
      >  f8.2)')(-1.0*toff(i),i=j,79+j,20)
       enddo
 
       write(10+iloop,'(/a,''hodo_neg_invadc_offset ='',3(f8.2,'',''),
      >  f8.2)')filename(1:1),(-1.0*toff(i),i=101,180,20)
-      do j=2,16
+      do j=2,20
        write(10+iloop,'(1x,''                        '',3(f8.2,'',''),
      >  f8.2)')(-1.0*toff(i),i=100+j,179+j,20)
       enddo
 
       write(10+iloop,'(/a,''hodo_pos_invadc_linear ='',3(f8.2,'',''),
      >  f8.2)')filename(1:1),( -1./min(-1./15.,vel(i)),i=1,80,20)
-      do j=2,16
+      do j=2,20
        write(10+iloop,'(1x,''                        '',3(f8.2,'',''),
      >  f8.2)')(-1./min(-1./15.,vel(i)),i=j,79+j,20)
       enddo
 
       write(10+iloop,'(/a,''hodo_neg_invadc_linear ='',3(f8.2,'',''),
      >  f8.2)')filename(1:1),( -1./min(-1./15.,vel(i)),i=101,180,20)
-      do j=2,16
+      do j=2,20
        write(10+iloop,'(1x,''                        '',3(f8.2,'',''),
      >  f8.2)')(-1./min(-1./15.,vel(i)),i=100+j,179+j,20)
       enddo
 
       write(10+iloop,'(/a,''hodo_pos_invadc_adc='',3(f9.2,'',''),
      >  f9.2)')filename(1:1),(-1.*quad(i),i=1,80,20)
-      do j=2,16
+      do j=2,20
        write(10+iloop,'(1x,''                   '',3(f9.2,'',''),
      >  f9.2)')(-1.*quad(i),i=j,79+j,20)
       enddo
 
       write(10+iloop,'(/a,''hodo_neg_invadc_adc='',3(f9.2,'',''),
      >  f9.2)')filename(1:1),(-1.0*quad(i),i=101,180,20)
-      do j=2,16
+      do j=2,20
        write(10+iloop,'(1x,''                   '',3(f9.2,'',''),
      >  f9.2)')(-1.*quad(i),i=100+j,179+j,20)
       enddo
@@ -371,7 +371,7 @@ c      write(8,'(1x,''ifail='',i10)') ifail
           read(string,'(1x,i1)') k
           if(k.eq.0) goto 13
           n=n+1
-          read(string,'(1x,i1,2i3,5f10.3)') ipn,ipl,idt, 
+          read(string,'(1x,i1,2i3,5f10.3)') ipn,ipl,idt,
      >      tr(n),p(n),zc(n),tc1(n),adc(n)
           idet(n) = 100*(ipn-1) + 20*(ipl-1) + idt
           tr(n) = tr(n)- zc(n)
@@ -380,7 +380,7 @@ c          adc(n) = min(500, max(0., adc(n)))
           p2(n) = 1./sqrt(max(20., adc(n)))
 ! ignore hits from paddles that are rarely hit
           k1 = idet(n)
-          dt = (tr(n) + toff(k1) + vel(k1)*p(n) + quad(k1)*p2(n))  
+          dt = (tr(n) + toff(k1) + vel(k1)*p(n) + quad(k1)*p2(n))
           if(nhit0(idet(n)).lt.100) n=n-1
         enddo
 ! Loop over all pairs, if at least 6 hits
@@ -420,7 +420,7 @@ c          adc(n) = min(500, max(0., adc(n)))
             endif
           enddo
         endif ! if n>5
-      enddo ! loop over reading in data 
+      enddo ! loop over reading in data
  14   close(unit=9)
 ! see how many hits per detector and get mean, sigma of original corr. times
       do i=1,200
@@ -448,13 +448,13 @@ c     >   '' deg. freedom'')') chisq/df,df
 
       write(10+iloop,'(/a,''hodo_pos_sigma ='',3(f8.2,'',''),
      >  f8.2)')filename(1:1),(sig(i),i=  1, 80,20)
-      do j=2,16
+      do j=2,20
        write(10+iloop,'(1x,''                '',3(f8.2,'',''),
      >  f8.2)')(sig(i),i=    j, 79+j,20)
       enddo
       write(10+iloop,'(/a,''hodo_neg_sigma ='',3(f8.2,'',''),
      >  f8.2)')filename(1:1),(sig(i),i=101,180,20)
-      do j=2,16
+      do j=2,20
        write(10+iloop,'(1x,''                '',3(f8.2,'',''),
      >  f8.2)')(sig(i),i=100+j,179+j,20)
       enddo
@@ -472,4 +472,3 @@ c        write(15,'(1x,i3,20i4)') i,(adchistpm(i,j,2),j=1,20)
 
  999  stop
       end
-
