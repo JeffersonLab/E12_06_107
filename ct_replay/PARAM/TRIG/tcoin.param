@@ -8,7 +8,7 @@ t_coin_tdcchanperns = 0.09766
 ;t_coin_trig_adcrefcut=-5000.
 t_coin_trig_tdcrefcut=-1000.
 t_coin_trig_adcrefcut=-1000.
-eHadCoinTime_Offset = 0.
+eHadCoinTime_Offset = 10.5
 
 ;NOTE: pTRIG1_ROC1, pTRIG4_ROC1, pTRIG1_ROC2, pTRIG4_ROC2 (tdcTimeRaw),  are hard-coded in THcTrigDet.cxx class
 ;      These varibles and their indices are used for the coincidence time calculation, and should NOT change here.
