@@ -14,10 +14,9 @@ pcut_pi_all            	  pcut_cer_ng_pi && pcut_cer_hg_pi && pcut_cal_pi
 shmsScinGood        P.hod.goodscinhit == 1
 shmsGoodBetanotrk   P.hod.betanotrack > 0.5 && P.hod.betanotrack < 1.4
 
-shmsScinShould      shmsScinGood && shmsGoodBetanotrk && !shmsDCany_large 
-shmsScinShoulde     shmsScinShould &&  P.cal.etotnorm > 0.6 && P.cal.etotnorm < 1.6 && P.hgcer.npeSum > 0.5
-#shmsScinShouldh     shmsScinShould && P.cal.etotnorm <= 0.6 && P.cal.etotnorm > 0. && P.hgcer.npeSum < 0.2
-shmsScinShouldh     shmsScinShould && P.cal.etotnorm <= 0.6 && P.cal.etotnorm > 0.
+shmsScinShould      shmsScinGood && shmsGoodBetanotrk && !shmsDCany_large
+shmsScinShoulde     shmsScinShould && P.cal.etotnorm > 0.6 && P.cal.etotnorm < 1.6 && P.hgcer.npeSum > 0.5
+shmsScinShouldh     shmsScinShould && P.hgcer.npeSum < 0.1 && P.ngcer.npeSum < 0.1
 shmsScinDid         shmsScinShould && P.dc.ntrack > 0
 shmsScinDide        shmsScinShoulde && P.dc.ntrack > 0
 shmsScinDidh        shmsScinShouldh && P.dc.ntrack > 0
@@ -36,8 +35,8 @@ pcut_goodHDC2v1     P.dc.2v1.nhit > 0 && P.dc.2v1.nhit < 3
 pcut_goodHDC2v2     P.dc.2v2.nhit > 0 && P.dc.2v2.nhit < 3
 pcut_goodHDC2x2     P.dc.2x2.nhit > 0 && P.dc.2x2.nhit < 3
 
-pcut_goodHDC1     pcut_goodHDC1x1  && pcut_goodHDC1u2 && pcut_goodHDC1u1 && pcut_goodHDC1v1 && pcut_goodHDC1v2 && pcut_goodHDC1x2 
-pcut_goodHDC2     pcut_goodHDC2x1  && pcut_goodHDC2u2 && pcut_goodHDC2u1 && pcut_goodHDC2v1 && pcut_goodHDC2v2 && pcut_goodHDC2x2 
+pcut_goodHDC1     pcut_goodHDC1x1  && pcut_goodHDC1u2 && pcut_goodHDC1u1 && pcut_goodHDC1v1 && pcut_goodHDC1v2 && pcut_goodHDC1x2
+pcut_goodHDC2     pcut_goodHDC2x1  && pcut_goodHDC2u2 && pcut_goodHDC2u1 && pcut_goodHDC2v1 && pcut_goodHDC2v2 && pcut_goodHDC2x2
 pcut_bothGood     pcut_goodHDC1 && pcut_goodHDC2
 
 pcut_realhdc1x1     pcut_goodHDC1x1 && ((P.dc.Ch1.spacepoints + P.dc.Ch2.spacepoints) > 0)

@@ -73,6 +73,8 @@ hstub_max_xpdiff = .05
   hstat_cal_maxchisq = 10.
 ; hstat_cal_slop          distance from center of block to count as expecting hit
   hstat_cal_slop = 2.
+; hstat_cermin            minimum npeSum to count as expecting a hit for hcal eff.
+  hstat_cermin = 0.0 
 ; hcer_min_eff            warning level for cerenkov effic.
   hcer_min_eff = .98
 ; hdc_min_eff             warning level for dc raw effic.(1 per plane)
